@@ -9,9 +9,9 @@ typedef struct {
 	int cols;
 } Screen;
 
-int screen_get_size(Screen *);
-void screen_refresh(Screen *, Cursor *);
-void screen_draw_rows(Screen *, Buffer *);
-void screen_draw_welcome(Screen *, Buffer *, const char *, int);
+int Screen_get_size(Screen *);
+void Screen_refresh(Screen *, Cursor *);
+void Screen_draw_rows(Screen *, Buffer *);
+void Screen_draw_welcome(Screen *, Buffer *, const char *, int);
 
 #endif // TED_SCREEN_H

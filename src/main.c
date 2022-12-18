@@ -7,8 +7,8 @@ int
 main(void)
 {
 	Config config;
-	if (screen_get_size(&config.screen) == -1) {
-		die("screen_get_size");
+	if (Screen_get_size(&config.screen) == -1) {
+		die("Screen_get_size");
 	}
 	config.cursor = (Cursor) {
 		.x = 0,
@@ -22,7 +22,7 @@ main(void)
 	raw_mode_on(&config.initial_termios);
 
 	for (;;) {
-		screen_refresh(&config.screen, &config.cursor);
+		Screen_refresh(&config.screen, &config.cursor);
 		if (key_process(&config, key_read()) != 0) {
 			break;
 		}

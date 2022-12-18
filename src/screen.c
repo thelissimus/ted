@@ -6,7 +6,7 @@
 #include "term_control.h"
 
 int
-screen_get_size(Screen *screen)
+Screen_get_size(Screen *screen)
 {
 	struct winsize ws;
 
@@ -24,7 +24,7 @@ screen_get_size(Screen *screen)
 }
 
 void
-screen_refresh(Screen *screen, Cursor *cursor)
+Screen_refresh(Screen *screen, Cursor *cursor)
 {
 	Buffer b = Buffer_init();
 
@@ -33,7 +33,7 @@ screen_refresh(Screen *screen, Cursor *cursor)
 	Buffer_append(&b, "\x1b[H", 3);
 
 	// draw main content
-	screen_draw_rows(screen, &b);
+	Screen_draw_rows(screen, &b);
 
 	// move cursor
 	char buf[32];
@@ -50,14 +50,14 @@ screen_refresh(Screen *screen, Cursor *cursor)
 }
 
 void
-screen_draw_rows(Screen *screen, Buffer *buffer)
+Screen_draw_rows(Screen *screen, Buffer *buffer)
 {
 	int y;
 	const char *msg = "TED - Text EDitor";
 
 	for (y = 0; y < screen->rows; y++) {
 		if (y == screen->rows / 3) {
-			screen_draw_welcome(screen, buffer, msg,
+			Screen_draw_welcome(screen, buffer, msg,
 				(int) strlen(msg));
 		} else {
 			Buffer_append(buffer, "~", 1);
@@ -71,7 +71,7 @@ screen_draw_rows(Screen *screen, Buffer *buffer)
 }
 
 void
-screen_draw_welcome(Screen *screen, Buffer *buffer, const char *msg, int len)
+Screen_draw_welcome(Screen *screen, Buffer *buffer, const char *msg, int len)
 {
 	if (len > screen->cols) {
 		len = screen->cols;
