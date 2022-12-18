@@ -4,12 +4,6 @@
 #include "term_control.h"
 #include "util.h"
 
-bool
-between(int x, int a, int b)
-{
-	return (a <= x && x <= b) || (b <= x && x <= a);
-}
-
 void
 cleanup(void)
 {
