@@ -1,12 +1,12 @@
+#include <sys/ioctl.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
 
-#define CTRL_KEY(k)	((k) & 0x1f)
+#define CTRL_KEY(k) ((k) &0x1f)
 
 typedef struct {
 	int rows;
@@ -35,7 +35,8 @@ void raw_mode_off(void);
 
 void die(const char *);
 
-int main(void)
+int
+main(void)
 {
 	if (screen_get_size(&config.screen.rows, &config.screen.cols) == -1) {
 		die("screen_get_size");
@@ -50,7 +51,8 @@ int main(void)
 	return 0;
 }
 
-int screen_get_size(int *rows, int *cols)
+int
+screen_get_size(int *rows, int *cols)
 {
 	struct winsize ws;
 
@@ -67,9 +69,10 @@ int screen_get_size(int *rows, int *cols)
 	return 0;
 }
 
-int screen_get_cursor_pos(int *rows, int *cols)
+int
+screen_get_cursor_pos(int *rows, int *cols)
 {
-	#define R_BUFSIZ 32
+#define R_BUFSIZ 32
 	char buf[R_BUFSIZ];
 	unsigned int i = 0;
 
@@ -95,10 +98,11 @@ int screen_get_cursor_pos(int *rows, int *cols)
 	}
 
 	return 0;
-	#undef R_BUFSIZ
+#undef R_BUFSIZ
 }
 
-char key_read(void)
+char
+key_read(void)
 {
 	int n;
 	char ch;
@@ -110,7 +114,8 @@ char key_read(void)
 	return ch;
 }
 
-void key_process(char ch)
+void
+key_process(char ch)
 {
 	switch (ch) {
 	case CTRL_KEY('q'):
@@ -121,24 +126,28 @@ void key_process(char ch)
 	}
 }
 
-void screen_clear(void)
+void
+screen_clear(void)
 {
 	(void) write(STDOUT_FILENO, "\x1b[2J", 4);
 }
 
-void screen_reset_cursor(void)
+void
+screen_reset_cursor(void)
 {
 	(void) write(STDOUT_FILENO, "\x1b[H", 3);
 }
 
-void screen_refresh(void)
+void
+screen_refresh(void)
 {
 	screen_clear();
 	screen_draw_rows();
 	screen_reset_cursor();
 }
 
-void screen_draw_rows(void)
+void
+screen_draw_rows(void)
 {
 	int y;
 	for (y = 0; y < config.screen.rows; y++) {
@@ -149,7 +158,8 @@ void screen_draw_rows(void)
 	}
 }
 
-void raw_mode_on(void)
+void
+raw_mode_on(void)
 {
 	if (tcgetattr(STDIN_FILENO, &config.orig_termios) == -1) {
 		die("tcgetattr");
@@ -169,14 +179,16 @@ void raw_mode_on(void)
 	}
 }
 
-void raw_mode_off(void)
+void
+raw_mode_off(void)
 {
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &config.orig_termios) == -1) {
 		die("tcsetattr");
 	}
 }
 
-void die(const char *s)
+void
+die(const char *s)
 {
 	screen_clear();
 	screen_reset_cursor();

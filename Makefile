@@ -15,6 +15,9 @@ all: ted
 ted: $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
+format:
+	clang-format -i *.[ch]
+
 clean:
 	rm -f ted $(OBJ) ted-$(VERSION).tar.gz
 
@@ -33,4 +36,4 @@ install: all
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/ted
 
-.PHONY: all clean dist install uninstall
+.PHONY: all format clean dist install uninstall
