@@ -1,4 +1,5 @@
-SRC = ted.c
+SRC = $(addprefix src/, \
+	buffer.c cursor.c key.c main.c screen.c term_control.c util.c)
 OBJ = $(SRC:.c=.o)
 
 VERSION = 0.1
@@ -16,7 +17,10 @@ ted: $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
 format:
-	clang-format -i *.[ch]
+	clang-format -i src/*.[ch]
+
+lint:
+	clang-tidy src/*.[ch]
 
 clean:
 	rm -f ted $(OBJ) ted-$(VERSION).tar.gz
@@ -36,4 +40,4 @@ install: all
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/ted
 
-.PHONY: all format clean dist install uninstall
+.PHONY: all format lint clean dist install uninstall
