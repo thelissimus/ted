@@ -5,7 +5,7 @@ Simple text editor for command line. Has Vim-like navigation.
 
 Based on this guide: https://viewsourcecode.org/snaptoken/kilo/
 
-KEYBINDS
+Keybinds
 ========
 
 Quit - "CTRL+q"
@@ -18,7 +18,7 @@ clang-format as close as I could. To format the source code run:
 
 	make format
 
-LICENSE
+License
 =======
 
 BSD-3-Clause
