@@ -11,7 +11,7 @@ CFLAGS = -std=c99 -Wall -Wextra -pedantic -O2
 all: ted
 
 %.o: %.c
-	$(CC) -o $@ $< -c $(CFLAGS)
+	$(CC) $< -o $@ -c $(CFLAGS)
 
 ted: $(OBJ)
 	$(CC) -o $@ $(OBJ)

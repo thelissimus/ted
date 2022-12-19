@@ -1,5 +1,4 @@
-#ifndef TED_CURSOR_H
-#define TED_CURSOR_H
+#pragma once
 
 typedef enum {
 	CURSOR_UP,
@@ -18,5 +17,3 @@ typedef struct {
 } Cursor;
 
 void Cursor_move(Cursor *, CursorDirection);
-
-#endif // TED_CURSOR_H

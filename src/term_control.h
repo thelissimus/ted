@@ -1,5 +1,4 @@
-#ifndef TED_TERM_CONTROL_H
-#define TED_TERM_CONTROL_H
+#pragma once
 
 #include <stddef.h>
 #include <termios.h>
@@ -12,5 +11,3 @@ int term_get_cursor_pos(int *, int *);
 int term_set_cursor_pos(char *, size_t, int, int);
 void term_reset_cursor(void);
 void term_clear(void);
-
-#endif // TED_TERM_CONTROL_H

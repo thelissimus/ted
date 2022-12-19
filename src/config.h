@@ -1,5 +1,4 @@
-#ifndef TED_CONFIG_H
-#define TED_CONFIG_H
+#pragma once
 
 #include <termios.h>
 
@@ -10,5 +9,3 @@ typedef struct {
 	Cursor cursor;
 	struct termios initial_termios;
 } Config;
-
-#endif // TED_CONFIG_H

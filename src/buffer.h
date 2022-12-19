@@ -1,5 +1,4 @@
-#ifndef TED_BUFFER_H
-#define TED_BUFFER_H
+#pragma once
 
 typedef struct {
 	char *buf;
@@ -9,5 +8,3 @@ typedef struct {
 Buffer Buffer_init(void);
 void Buffer_append(Buffer *, const char *, int);
 void Buffer_reset(Buffer *);
-
-#endif // TED_BUFFER_H
