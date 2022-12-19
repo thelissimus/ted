@@ -16,4 +16,4 @@ typedef struct {
 	int y_max;
 } Cursor;
 
-void Cursor_move(Cursor *, CursorDirection);
+void Cursor_move(Cursor *, CursorDirection, int);

@@ -10,20 +10,20 @@ Buffer_init(void)
 }
 
 void
-Buffer_append(Buffer *self, const char *s, int len)
+Buffer_append(Buffer *buffer, const char *s, int len)
 {
-	char *new = realloc(self->buf, self->len + len);
+	char *new = realloc(buffer->buf, buffer->len + len);
 	if (new == NULL) {
 		return;
 	}
-	memcpy(&new[self->len], s, len);
-	self->buf = new;
-	self->len += len;
+	memcpy(&new[buffer->len], s, len);
+	buffer->buf = new;
+	buffer->len += len;
 }
 
 void
-Buffer_reset(Buffer *self)
+Buffer_reset(Buffer *buffer)
 {
-	free(self->buf);
-	self->len = 0;
+	free(buffer->buf);
+	buffer->len = 0;
 }
