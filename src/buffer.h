@@ -1,10 +1,12 @@
 #pragma once
 
-typedef struct {
-	char *buf;
-	int len;
-} Buffer;
+#include <stddef.h>
 
-Buffer Buffer_init(void);
-void Buffer_append(Buffer *, const char *, int);
-void Buffer_reset(Buffer *);
+struct buffer {
+	char *buf;
+	size_t len;
+};
+
+struct buffer buffer_init(void);
+void buffer_append(struct buffer *, const char *, size_t);
+void buffer_reset(struct buffer *);

@@ -3,27 +3,27 @@
 
 #include "buffer.h"
 
-Buffer
-Buffer_init(void)
+struct buffer
+buffer_init(void)
 {
-	return (Buffer) { .buf = NULL, .len = 0 };
+	return (struct buffer) { .buf = NULL, .len = 0 };
 }
 
 void
-Buffer_append(Buffer *buffer, const char *s, int len)
+buffer_append(struct buffer *b, const char *s, size_t len)
 {
-	char *new = realloc(buffer->buf, buffer->len + len);
+	char *new = realloc(b->buf, b->len + len);
 	if (new == NULL) {
 		return;
 	}
-	memcpy(&new[buffer->len], s, len);
-	buffer->buf = new;
-	buffer->len += len;
+	memcpy(&new[b->len], s, len);
+	b->buf = new;
+	b->len += len;
 }
 
 void
-Buffer_reset(Buffer *buffer)
+buffer_reset(struct buffer *b)
 {
-	free(buffer->buf);
-	buffer->len = 0;
+	free(b->buf);
+	b->len = 0;
 }

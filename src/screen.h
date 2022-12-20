@@ -3,12 +3,11 @@
 #include "buffer.h"
 #include "cursor.h"
 
-typedef struct {
+struct screen {
 	int rows;
 	int cols;
-} Screen;
+};
 
-int Screen_get_size(Screen *);
-void Screen_refresh(Screen *, Cursor *);
-void Screen_draw_rows(Screen *, Buffer *);
-void Screen_draw_welcome(Screen *, Buffer *, const char *, int);
+int screen_get_size(struct screen *);
+void screen_refresh(const struct screen *, const struct cursor *);
+void screen_draw_rows(const struct screen *, struct buffer *);

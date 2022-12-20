@@ -4,9 +4,9 @@
 #include "term_control.h"
 
 int
-raw_mode_on(struct termios *initial)
+raw_mode_on(const struct termios *t)
 {
-	struct termios raw = *initial;
+	struct termios raw = *t;
 
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	raw.c_oflag &= ~(OPOST);
@@ -25,7 +25,7 @@ termios_get(struct termios *dest)
 }
 
 int
-termios_set(struct termios *src)
+termios_set(const struct termios *src)
 {
 	return tcsetattr(STDIN_FILENO, TCSAFLUSH, src);
 }

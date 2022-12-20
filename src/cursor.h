@@ -1,19 +1,14 @@
 #pragma once
 
-typedef enum {
-	CURSOR_UP,
-	CURSOR_DOWN,
-	CURSOR_RIGHT,
-	CURSOR_LEFT
-} CursorDirection;
+enum cursor_direction { CURSOR_UP, CURSOR_DOWN, CURSOR_RIGHT, CURSOR_LEFT };
 
-typedef struct {
+struct cursor {
 	int x;
 	int x_min;
 	int x_max;
 	int y;
 	int y_min;
 	int y_max;
-} Cursor;
+};
 
-void Cursor_move(Cursor *, CursorDirection, int);
+void cursor_move(struct cursor *, enum cursor_direction, int);

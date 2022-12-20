@@ -1,11 +1,11 @@
 #pragma once
 
-#include "config.h"
+#include "editor_state.h"
 
 #define CTRL_KEY(k) ((k) &0x1f)
 #define VT_ESC      '\x1b'
 
-typedef enum {
+enum keycode {
 	ARROW_UP = 1000,
 	ARROW_DOWN,
 	ARROW_RIGHT,
@@ -15,7 +15,7 @@ typedef enum {
 	HOME_KEY,
 	END_KEY,
 	DEL_KEY,
-} KeyActions;
+};
 
 int key_read(void);
-int key_process(Config *, int);
+int key_process(struct editor_state *, int);

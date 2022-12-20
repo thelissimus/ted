@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-#include "config.h"
+#include "editor_state.h"
 #include "key.h"
 #include "util.h"
 
@@ -78,41 +78,49 @@ key_read(void)
 }
 
 int
-key_process(Config *config, int key)
+key_process(struct editor_state *st, int key)
 {
 	switch (key) {
 	case CTRL_KEY('q'):
 		return 1;
+
 	case 'k':
 	case ARROW_UP:
-		Cursor_move(&config->cursor, CURSOR_UP, 1);
+		cursor_move(&st->cursor, CURSOR_UP, 1);
 		break;
 	case 'j':
 	case ARROW_DOWN:
-		Cursor_move(&config->cursor, CURSOR_DOWN, 1);
+		cursor_move(&st->cursor, CURSOR_DOWN, 1);
 		break;
+
 	case 'l':
 	case ARROW_RIGHT:
-		Cursor_move(&config->cursor, CURSOR_RIGHT, 1);
+		cursor_move(&st->cursor, CURSOR_RIGHT, 1);
 		break;
+
 	case 'h':
 	case ARROW_LEFT:
-		Cursor_move(&config->cursor, CURSOR_LEFT, 1);
+		cursor_move(&st->cursor, CURSOR_LEFT, 1);
 		break;
+
 	case PAGE_UP:
-		Cursor_move(&config->cursor, CURSOR_UP, config->cursor.y);
+		cursor_move(&st->cursor, CURSOR_UP, st->cursor.y);
 		break;
+
 	case PAGE_DOWN:
-		Cursor_move(&config->cursor, CURSOR_DOWN,
-			config->screen.rows - 1 - config->cursor.y);
+		cursor_move(&st->cursor, CURSOR_DOWN,
+			st->screen.rows - 1 - st->cursor.y);
 		break;
+
 	case HOME_KEY:
-		Cursor_move(&config->cursor, CURSOR_LEFT, config->cursor.x);
+		cursor_move(&st->cursor, CURSOR_LEFT, st->cursor.x);
 		break;
+
 	case END_KEY:
-		Cursor_move(&config->cursor, CURSOR_RIGHT,
-			config->screen.cols - 1 - config->cursor.x);
+		cursor_move(&st->cursor, CURSOR_RIGHT,
+			st->screen.cols - 1 - st->cursor.x);
 		break;
+
 	default:
 		break;
 	}
