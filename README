@@ -5,13 +5,30 @@ Simple text editor for command line. Has Vim-like navigation.
 
 Based on this guide: https://viewsourcecode.org/snaptoken/kilo/
 
-Keybinds
-========
+Installation
+------------
 
-Quit - "CTRL+q"
+Build it from source with:
+
+	make
+
+Install with:
+
+	make install
+
+Uninstall with:
+
+	make uninstall
+
+Usage
+-----
+
+	ted FILENAME
+
+See doc/KEYBINDINGS for keyboard bindings.
 
 Code Style
-==========
+----------
 
 I follow OpenBSD code style: https://man.openbsd.org/style.9/. Set up
 clang-format as close as I could. To format the source code run:
@@ -19,6 +36,6 @@ clang-format as close as I could. To format the source code run:
 	make format
 
 License
-=======
+-------
 
 BSD-3-Clause

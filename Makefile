@@ -4,15 +4,15 @@ SRC = $(addprefix src/, \
 OBJ = $(SRC:.c=.o)
 
 VERSION = 0.1
+PREFIX  = /usr/local
 
-PREFIX = /usr/local
-
+CC     = cc
 CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -O2
 
 all: ted
 
-%.o: %.c
-	$(CC) $< -o $@ -c $(CFLAGS)
+.c.o:
+	$(CC) -o $@ $< -c $(CFLAGS)
 
 ted: $(OBJ)
 	$(CC) -o $@ $(OBJ)

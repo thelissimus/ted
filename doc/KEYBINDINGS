@@ -1,0 +1,23 @@
+Keybindings
+===========
+
+Actions
+-------
+
+| Action | Key      |
+|--------|----------|
+| Quit   | `CTRL-q` |
+
+Navigation
+----------
+
+| Direction     | Key                   |
+|---------------|-----------------------|
+| Left          | `h` or `Left Arrow`   |
+| Right         | `l`  or `Right Arrow` |
+| Up            | `k` or `Up Arrow`     |
+| Down          | `j` or `Down Arrow`   |
+| Start of line | `Home`                |
+| End of line   | `End`                 |
+| Top           | `Page Up`             |
+| Bottom        | `Page Down`           |
