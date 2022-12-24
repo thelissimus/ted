@@ -27,7 +27,8 @@ screen_get_size(struct screen *s)
 }
 
 void
-screen_refresh(const struct screen *s, const struct cursor *c)
+screen_refresh(const struct screen *s, const struct cursor *c,
+	const struct editor_rows *e)
 {
 	struct buffer b = buffer_init();
 
@@ -35,7 +36,7 @@ screen_refresh(const struct screen *s, const struct cursor *c)
 	buffer_append(&b, "\x1b[?25l", 6);
 	buffer_append(&b, "\x1b[H", 3);
 	// draw main content
-	screen_draw_rows(s, &b);
+	screen_draw_rows(s, &b, e);
 	// move cursor
 	char cpos[32];
 	int cpos_l = term_set_cursor_pos(cpos, sizeof cpos, c->x, c->y);
@@ -48,16 +49,26 @@ screen_refresh(const struct screen *s, const struct cursor *c)
 }
 
 void
-screen_draw_rows(const struct screen *s, struct buffer *b)
+screen_draw_rows(const struct screen *s, struct buffer *b,
+	const struct editor_rows *e)
 {
 	int y;
 	const char *msg = "TED - Text EDitor";
 
 	for (y = 0; y < s->rows; y++) {
-		if (y == s->rows / 3) {
-			screen_draw_welcome(s, b, msg, (int) strlen(msg));
+		if ((size_t) y < e->count) {
+			size_t len = e->rows[y].length;
+			if (len > (size_t) s->cols) {
+				len = s->cols;
+			}
+			buffer_append(b, e->rows[y].content, len);
 		} else {
-			buffer_append(b, "~", 1);
+			if (e->count == 0 && y == s->rows / 3) {
+				screen_draw_welcome(s, b, msg,
+					(int) strlen(msg));
+			} else {
+				buffer_append(b, "~", 1);
+			}
 		}
 
 		buffer_append(b, "\x1b[K", 3);

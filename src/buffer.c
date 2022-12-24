@@ -24,6 +24,10 @@ buffer_append(struct buffer *b, const char *s, size_t len)
 void
 buffer_reset(struct buffer *b)
 {
+	if (b->len == 0) {
+		return;
+	}
+
 	free(b->buf);
 	b->len = 0;
 }

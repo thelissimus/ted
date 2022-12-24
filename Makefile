@@ -1,12 +1,13 @@
 SRC = $(addprefix src/, \
-	buffer.c cursor.c key.c main.c screen.c term_control.c util.c)
+	buffer.c cursor.c key.c main.c row.c screen.c term_control.c util.c \
+	)
 OBJ = $(SRC:.c=.o)
 
 VERSION = 0.1
 
 PREFIX = /usr/local
 
-CFLAGS = -std=c99 -Wall -Wextra -pedantic -O2
+CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -O2
 
 all: ted
 
