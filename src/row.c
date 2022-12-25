@@ -10,7 +10,13 @@
 struct editor_rows
 editor_rows_init(void)
 {
-	return (struct editor_rows) { .rows = NULL, .count = 0 };
+	return (struct editor_rows) {
+		.rows = NULL,
+		.count = 0,
+		.row_offset = 0,
+		.col_offset = 0,
+		.col_max = 0,
+	};
 }
 
 void
@@ -53,10 +59,14 @@ editor_rows_readfile(struct editor_rows *rs, const char *filename)
 		return -1;
 	}
 
+	rs->col_max = 0;
 	while ((len = getline(&line, &cap, file)) != -1) {
 		if (len > 0) {
 			len = (ssize_t) strcspn(line, "\r\n");
 			line[len] = '\0';
+		}
+		if ((size_t) len > rs->col_max) {
+			rs->col_max = len;
 		}
 		editor_rows_append(rs, line, len);
 	}

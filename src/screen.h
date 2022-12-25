@@ -11,6 +11,6 @@ struct screen {
 
 int screen_get_size(struct screen *);
 void screen_refresh(const struct screen *, const struct cursor *,
-	const struct editor_rows *);
+	struct editor_rows *);
 void screen_draw_rows(const struct screen *, struct buffer *,
 	const struct editor_rows *);

@@ -80,6 +80,13 @@ key_read(void)
 int
 key_process(struct editor_state *st, int key)
 {
+	struct row *crw = (st->cursor.y >= st->rows.count)
+		? NULL
+		: &st->rows.rows[st->cursor.y];
+	if (crw != NULL) {
+		st->cursor.x_max = crw->length + 1;
+	}
+
 	switch (key) {
 	case CTRL_KEY('q'):
 		return 1;
@@ -88,6 +95,7 @@ key_process(struct editor_state *st, int key)
 	case ARROW_UP:
 		cursor_move(&st->cursor, CURSOR_UP, 1);
 		break;
+
 	case 'j':
 	case ARROW_DOWN:
 		cursor_move(&st->cursor, CURSOR_DOWN, 1);
@@ -95,34 +103,53 @@ key_process(struct editor_state *st, int key)
 
 	case 'l':
 	case ARROW_RIGHT:
-		cursor_move(&st->cursor, CURSOR_RIGHT, 1);
+		if (crw && st->cursor.x == crw->length) {
+			cursor_move(&st->cursor, CURSOR_DOWN, 1);
+			cursor_move(&st->cursor, CURSOR_LEFT, st->cursor.x);
+		} else {
+			cursor_move(&st->cursor, CURSOR_RIGHT, 1);
+		}
 		break;
 
 	case 'h':
 	case ARROW_LEFT:
-		cursor_move(&st->cursor, CURSOR_LEFT, 1);
+		if (crw && st->cursor.x == 0 && st->cursor.y > 0) {
+			cursor_move(&st->cursor, CURSOR_UP, 1);
+			// TODO: Fix strange behaviour without `- 1`
+			cursor_move(&st->cursor, CURSOR_RIGHT, crw->length - 1);
+		} else {
+			cursor_move(&st->cursor, CURSOR_LEFT, 1);
+		}
 		break;
 
 	case PAGE_UP:
-		cursor_move(&st->cursor, CURSOR_UP, st->cursor.y);
+		cursor_move(&st->cursor, CURSOR_UP, st->screen.rows);
 		break;
 
 	case PAGE_DOWN:
-		cursor_move(&st->cursor, CURSOR_DOWN,
-			st->screen.rows - 1 - st->cursor.y);
+		cursor_move(&st->cursor, CURSOR_DOWN, st->screen.rows - 1);
 		break;
 
 	case HOME_KEY:
-		cursor_move(&st->cursor, CURSOR_LEFT, st->cursor.x);
+		cursor_move(&st->cursor, CURSOR_LEFT, st->screen.cols);
 		break;
 
 	case END_KEY:
-		cursor_move(&st->cursor, CURSOR_RIGHT,
-			st->screen.cols - 1 - st->cursor.x);
+		cursor_move(&st->cursor, CURSOR_RIGHT, st->screen.cols - 1);
 		break;
 
 	default:
 		break;
+	}
+
+	crw = (st->cursor.y >= st->rows.count) ? NULL
+					       : &st->rows.rows[st->cursor.y];
+	if (crw != NULL) {
+		st->cursor.x_max = crw->length + 1;
+	}
+	size_t crw_len = crw ? crw->length : 0;
+	if (st->cursor.x > crw_len) {
+		cursor_move(&st->cursor, CURSOR_LEFT, st->cursor.x - crw_len);
 	}
 	return 0;
 }

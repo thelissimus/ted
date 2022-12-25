@@ -26,6 +26,8 @@ main(int argc, char *argv[])
 		if (editor_rows_readfile(&state.rows, argv[1]) != 0) {
 			die("editor_rows_readfile");
 		}
+		state.cursor.x_max = state.rows.col_max;
+		state.cursor.y_max = state.rows.count;
 	}
 
 	for (;;) {

@@ -8,6 +8,9 @@ struct row {
 };
 
 struct editor_rows {
+	size_t row_offset;
+	size_t col_offset;
+	size_t col_max;
 	size_t count;
 	struct row *rows;
 };
