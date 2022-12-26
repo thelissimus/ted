@@ -1,21 +1,44 @@
+VERSION = 0.1
+
+TARGET = bin/ted
+PREFIX = /usr/local
+
+CPPFLAGS = -D_DEFAULT_SOURCE
+CFLAGS   = -std=c99 -Wall -Wextra -Wpedantic -O2 $(CPPFLAGS)
+CC       = cc
+
 SRC = $(addprefix src/, \
 	buffer.c cursor.c key.c main.c row.c screen.c term_control.c util.c \
 	)
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:src/%.c=bin/%.o)
 
-VERSION = 0.1
-PREFIX  = /usr/local
+TEST_SRC     = $(wildcard src/*_test.c)
+TEST_SRC_OBJ = $(TEST_SRC:src/%_test.c=bin/%.o)
+TEST_OBJ     = $(TEST_SRC:src/%.c=bin/%.o)
+TEST_BIN     = $(TEST_SRC:src/%.c=bin/%)
+TEST_LIBS    = -lcriterion
 
-CC     = cc
-CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -O2
+all: $(TARGET)
 
-all: ted
+options:
+	@echo "VERSION      = $(VERSION)"
+	@echo "TARGET       = $(TARGET)"
+	@echo "PREFIX       = $(PREFIX)"
+	@echo "CFLAGS       = $(CFLAGS)"
+	@echo "CC           = $(CC)"
+	@echo "SRC          = $(SRC)"
+	@echo "OBJ          = $(OBJ)"
+	@echo "TEST_SRC     = $(TEST_SRC)"
+	@echo "TEST_SRC_OBJ = $(TEST_SRC_OBJ)"
+	@echo "TEST_OBJ     = $(TEST_OBJ)"
+	@echo "TEST_BIN     = $(TEST_BIN)"
+	@echo "TEST_LIBS    = $(TEST_LIBS)"
 
-.c.o:
+bin/%.o: src/%.c
 	$(CC) -o $@ $< -c $(CFLAGS)
 
-ted: $(OBJ)
-	$(CC) -o $@ $(OBJ)
+$(TARGET): $(OBJ)
+	$(CC) -o $@ $^
 
 format:
 	clang-format -i src/*.[ch]
@@ -23,15 +46,14 @@ format:
 lint:
 	clang-tidy src/*.[ch]
 
-clean:
-	rm -f ted $(OBJ) ted-$(VERSION).tar.gz
+$(TEST_BIN): $(TEST_OBJ) $(TEST_SRC_OBJ)
+	$(CC) -o $@ $^ $(TEST_LIBS)
 
-dist: clean
-	mkdir -p ted-$(VERSION)
-	cp -r Makefile $(SRC) ted-$(VERSION)
-	tar -cf ted-$(VERSION).tar ted-$(VERSION)
-	gzip ted-$(VERSION).tar
-	rm -rf ted-$(VERSION)
+test: $(TEST_BIN)
+	for test in $^; do ./$$test; done
+
+clean:
+	rm -f $(TARGET) $(OBJ) $(TEST_OBJ) $(TEST_BIN)
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -41,4 +63,4 @@ install: all
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/ted
 
-.PHONY: all format lint clean dist install uninstall
+.PHONY: all options format lint test clean install uninstall
