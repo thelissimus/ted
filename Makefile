@@ -34,7 +34,10 @@ options:
 	@echo "TEST_BIN     = $(TEST_BIN)"
 	@echo "TEST_LIBS    = $(TEST_LIBS)"
 
-bin/%.o: src/%.c
+bin/:
+	mkdir bin/
+
+bin/%.o: src/%.c | bin/
 	$(CC) -o $@ $< -c $(CFLAGS)
 
 $(TARGET): $(OBJ)
@@ -57,7 +60,7 @@ clean:
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f ted $(DESTDIR)$(PREFIX)/bin
+	cp -f $(TARGET) $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/ted
 
 uninstall:
