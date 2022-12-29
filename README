@@ -35,6 +35,16 @@ clang-format as close as I could. To format the source code run:
 
 	make format
 
+Dependencies
+------------
+
+Tests:
+* Criterion - https://github.com/Snaipe/Criterion/
+
+Documentation:
+* Doxygen  - https://www.doxygen.nl/
+* Graphviz - https://graphviz.org/
+
 License
 -------
 

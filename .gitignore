@@ -1,6 +1,9 @@
 # Editor
 .idea/
 
+# Docs
+doc/web/
+
 # Build
 bin/
 *.o

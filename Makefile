@@ -18,6 +18,10 @@ TEST_OBJ     = $(TEST_SRC:src/%.c=bin/%.o)
 TEST_BIN     = $(TEST_SRC:src/%.c=bin/%)
 TEST_LIBS    = -lcriterion
 
+DOC_SRC   = $(wildcard src/*.h)
+DOC_WEB   = doc/web
+DOC_ASSET = $(wildcard doc/asset/*/*)
+
 all: $(TARGET)
 
 options:
@@ -33,6 +37,9 @@ options:
 	@echo "TEST_OBJ     = $(TEST_OBJ)"
 	@echo "TEST_BIN     = $(TEST_BIN)"
 	@echo "TEST_LIBS    = $(TEST_LIBS)"
+	@echo "DOC_SRC      = $(DOC_SRC)"
+	@echo "DOC_WEB      = $(DOC_WEB)"
+	@echo "DOC_ASSET    = $(DOC_ASSET)"
 
 bin/:
 	mkdir bin/
@@ -55,7 +62,13 @@ $(TEST_BIN): $(TEST_OBJ) $(TEST_SRC_OBJ)
 test: $(TEST_BIN)
 	for test in $^; do ./$$test; done
 
+$(DOC_WEB): $(DOC_SRC) $(DOC_ASSET) Doxyfile
+	doxygen Doxyfile
+
+doc: $(DOC_WEB)
+
 clean:
+	rm -rf $(DOC_WEB)
 	rm -f $(TARGET) $(OBJ) $(TEST_OBJ) $(TEST_BIN)
 
 install: all
@@ -66,4 +79,4 @@ install: all
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/ted
 
-.PHONY: all options format lint test clean install uninstall
+.PHONY: all options format lint test doc clean install uninstall
