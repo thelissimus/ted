@@ -1,9 +1,7 @@
 TED - Text EDitor
 =================
 
-Simple text editor for command line. Has Vim-like navigation.
-
-Based on this guide: https://viewsourcecode.org/snaptoken/kilo/
+Simple text editor for command line.
 
 Installation
 ------------
