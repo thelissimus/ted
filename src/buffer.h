@@ -1,7 +1,7 @@
 /**
  * @file buffer.h
  * @brief Implementation of dynamic memory buffer.
- * @author The Lissimus
+ * @author thelissimus
  */
 
 #pragma once
